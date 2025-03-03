@@ -2,12 +2,12 @@ package com.example.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.FlatEntity.Flat;
 import com.example.FlatInterface.FlatDao;
 
-
+@CrossOrigin(origins = "http://localhost:4200")  // Allow Angular frontend
 @RestController
 @RequestMapping("/api/flats")
 public class AllMethods
@@ -36,8 +36,7 @@ public class AllMethods
       @PostMapping
       public Flat addFlat(@RequestBody Flat flat) {   	  
     	  System.out.println(flat);
-          return flatDAO.save(flat);
-          
+          return flatDAO.save(flat);    
       }
       
 //		@PostMapping
@@ -45,7 +44,7 @@ public class AllMethods
 //			flatDAO.save(flat);
 //			return "Flat added successfully!";
 //		}
-       
+//       
 //        @PostMapping
 //        public ResponseEntity<Flat> addFlat(@RequestBody Flat flat) {
 //            Flat savedFlat = flatDAO.save(flat);
@@ -65,7 +64,7 @@ public class AllMethods
 //            return ResponseEntity.status(HttpStatus.CREATED)
 //                                 .body("Flat added successfully with ID: " + savedFlat.getId());
 //        }
-    
+//    
 //         @PostMapping
 //         public ResponseEntity<String> addFlat(@RequestBody Flat flat) {
 //           flatDAO.save(flat);
@@ -77,58 +76,58 @@ public class AllMethods
 //=================================================================================
         
          // Update an existing flat
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Flat> updateFlat(@PathVariable Long id, @RequestBody Flat flat) {
-//        Optional<Flat> existingFlat = flatDAO.findById(id);
-//        
-//        if (existingFlat.isPresent()) {
-//            // If flat exists, update it
-//            Flat updatedFlat = existingFlat.get();
-//            updatedFlat.setFloorNumber(flat.getFloorNumber());
-//            updatedFlat.setPrice(flat.getPrice());
-//            updatedFlat.setIsAvailable(flat.getIsAvailable());
-//            updatedFlat.setFurnishedStatus(flat.getFurnishedStatus());
-//            updatedFlat.setNumberOfBalconies(flat.getNumberOfBalconies());
-//            updatedFlat.setFlatType(flat.getFlatType());
-//            updatedFlat.setFlatNumber(flat.getFlatNumber());
-//            updatedFlat.setOwnerName(flat.getOwnerName());
-//
-//            // Save and return the updated flat
-//            flatDAO.save(updatedFlat);
-//            return ResponseEntity.ok(updatedFlat);// Return the updated flat with HTTP status OK (200)
-//
-////			return "Flat updated successfully!";   If we want to return this string/message then the method return type should be String and Flat
-//
-//        } else {
-//            // If flat doesn't exist, return a not found response
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                                 .body(null);//if here we want to print "flat not updated" the message in the body then method return type should be String
-////          // Return NOT_FOUND status if the flat with the given id does not exist
-//
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Flat> updateFlat(@PathVariable Long id, @RequestBody Flat flat) {
+        Optional<Flat> existingFlat = flatDAO.findById(id);
+        
+        if (existingFlat.isPresent()) {
+            // If flat exists, update it
+            Flat updatedFlat = existingFlat.get();
+            updatedFlat.setFloorNumber(flat.getFloorNumber());
+            updatedFlat.setPrice(flat.getPrice());
+            updatedFlat.setIsAvailable(flat.getIsAvailable());
+            updatedFlat.setFurnishedStatus(flat.getFurnishedStatus());
+            updatedFlat.setNumberOfBalconies(flat.getNumberOfBalconies());
+            updatedFlat.setFlatType(flat.getFlatType());
+            updatedFlat.setFlatNumber(flat.getFlatNumber());
+            updatedFlat.setOwnerName(flat.getOwnerName());
 
-        @PutMapping("/{id}")
-        public ResponseEntity<Flat> updateFlat(@PathVariable Long id, @RequestBody Flat flat) {
-            Optional<Flat> existingFlat = flatDAO.findById(id);
+            // Save and return the updated flat
+            flatDAO.save(updatedFlat);
+            return ResponseEntity.ok(updatedFlat);// Return the updated flat with HTTP status OK (200)
 
-            if (existingFlat.isPresent()) {
-                Flat updatedFlat = existingFlat.get();
-                updatedFlat.setFloorNumber(flat.getFloorNumber());
-                updatedFlat.setPrice(flat.getPrice());
-                updatedFlat.setIsAvailable(flat.getIsAvailable());
-                updatedFlat.setFurnishedStatus(flat.getFurnishedStatus());
-                updatedFlat.setNumberOfBalconies(flat.getNumberOfBalconies());
-                updatedFlat.setFlatType(flat.getFlatType());
-                updatedFlat.setFlatNumber(flat.getFlatNumber());
-                updatedFlat.setOwnerName(flat.getOwnerName());
+//			return "Flat updated successfully!";   If we want to return this string/message then the method return type should be String
 
-                flatDAO.save(updatedFlat);
-                return ResponseEntity.ok(updatedFlat);
-            } else {
-                throw new NoSuchElementException("Flat with ID " + id + " not found");
-            }
+        } else {
+            // If flat doesn't exist, return a not found response
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(null);//if here we want to print "flat not updated" the message in the body then method return type should be String
+//          // Return NOT_FOUND status if the flat with the given id does not exist
+
         }
+    }
+
+//        @PutMapping("/{id}")
+//        public ResponseEntity<Flat> updateFlat(@PathVariable Long id, @RequestBody Flat flat) {
+//            Optional<Flat> existingFlat = flatDAO.findById(id);
+//
+//            if (existingFlat.isPresent()) {
+//                Flat updatedFlat = existingFlat.get();
+//                updatedFlat.setFloorNumber(flat.getFloorNumber());
+//                updatedFlat.setPrice(flat.getPrice());
+//                updatedFlat.setIsAvailable(flat.getIsAvailable());
+//                updatedFlat.setFurnishedStatus(flat.getFurnishedStatus());
+//                updatedFlat.setNumberOfBalconies(flat.getNumberOfBalconies());
+//                updatedFlat.setFlatType(flat.getFlatType());
+//                updatedFlat.setFlatNumber(flat.getFlatNumber());
+//                updatedFlat.setOwnerName(flat.getOwnerName());
+//
+//                flatDAO.save(updatedFlat);
+//                return ResponseEntity.ok(updatedFlat);
+//            } else {
+//                throw new NoSuchElementException("Flat with ID " + id + " not found");
+//            }
+//        }
   
 
     
@@ -175,7 +174,7 @@ public class AllMethods
 //                    throw new NoSuchElementException("Flat with ID " + id + " does not exist.");
 //                }
 //            }
-        
+//        
          
 //         @DeleteMapping("/{id}")
 //         public String deleteFlat(@PathVariable Long id) {
@@ -183,22 +182,22 @@ public class AllMethods
 //		  return "Flat Deleted Successfully";
 //         }
     
-        @DeleteMapping("/{id}")
-        public ResponseEntity<String> deleteFlat(@PathVariable Long id) {
-            flatDAO.deleteById(id);
-            return ResponseEntity.ok("Flat deleted successfully");
-        }
-
-      
 //        @DeleteMapping("/{id}")
 //        public ResponseEntity<String> deleteFlat(@PathVariable Long id) {
-//            if (flatDAO.existsById(id)) {
-//                flatDAO.deleteById(id);
-//                return ResponseEntity.ok("Flat deleted successfully");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flat not found");
-//            }
+//            flatDAO.deleteById(id);
+//            return ResponseEntity.ok("Flat deleted successfully");
 //        }
+
+      
+        @DeleteMapping("/{id}")
+        public ResponseEntity<String> deleteFlat(@PathVariable Long id) {
+            if (flatDAO.existsById(id)) {
+                flatDAO.deleteById(id);
+                return ResponseEntity.ok("Flat deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flat not found");
+            }
+        }
 
           
 //        @DeleteMapping("/{id}")
@@ -238,16 +237,16 @@ public class AllMethods
 //        }
 
         
-//        @GetMapping("/{id}")
-//        public ResponseEntity<Flat> getFlatById(@PathVariable Long id) {
-//            Optional<Flat> flat = flatDAO.findById(id);
-//            
-//            if (flat.isPresent()) {
-//                return ResponseEntity.ok(flat.get());  // If flat is found, return it with 200 OK
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  // If flat is not found, return 404 Not Found
-//            }
-//        }
+        @GetMapping("/{id}")
+        public ResponseEntity<Flat> getFlatById(@PathVariable Long id) {
+            Optional<Flat> flat = flatDAO.findById(id);
+            
+            if (flat.isPresent()) {
+                return ResponseEntity.ok(flat.get());  // If flat is found, return it with 200 OK
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  // If flat is not found, return 404 Not Found
+            }
+        }
 
         
 //        @GetMapping("/{id}")
@@ -272,10 +271,10 @@ public class AllMethods
 //=================================================================================
 
         // Get all flats
-        @GetMapping
-        public List<Flat> getAllFlats() {
-            return flatDAO.findAll();
-        }
+//        @GetMapping
+//        public List<Flat> getAllFlats() {
+//            return flatDAO.findAll();
+//        }
         //Directly returns the list of flats.
         //The response will have the default HTTP status 200 OK.
       
@@ -296,15 +295,15 @@ public class AllMethods
 //            return ResponseEntity.ok(flats);
 //        }
         
-//        @GetMapping
-//        public ResponseEntity<?> getAllFlats() {   //? allows the method to return a ResponseEntity containing any type of body.[either flat obj or String]
-//
-//            List<Flat> flats = flatDAO.findAll();
-//            if (flats.isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No flats available");
-//            }
-//            return ResponseEntity.ok(flats);
-//        }
+        @GetMapping
+        public ResponseEntity<?> getAllFlats() {   //? allows the method to return a ResponseEntity containing any type of body.[either flat obj or String]
+
+            List<Flat> flats = flatDAO.findAll();
+            if (flats.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No flats available");
+            }
+            return ResponseEntity.ok(flats);
+        }
 
 //=================================================================================
 
@@ -361,16 +360,16 @@ public class AllMethods
 //=================================================================================
 
         // Get flats by floor number
-        @GetMapping("/floor/{floorNumber}")
-        public List<Flat> getFlatsByFloorNumber(@PathVariable int floorNumber) {
-            List<Flat> flatsByFloor = new ArrayList<>();
-            for (Flat flat : flatDAO.findAll()) {
-                if (flat.getFloorNumber() == floorNumber) {
-                    flatsByFloor.add(flat);
-                }
-            }
-            return flatsByFloor;
-        }
+//        @GetMapping("/floor/{floorNumber}")
+//        public List<Flat> getFlatsByFloorNumber(@PathVariable int floorNumber) {
+//            List<Flat> flatsByFloor = new ArrayList<>();
+//            for (Flat flat : flatDAO.findAll()) {
+//                if (flat.getFloorNumber() == floorNumber) {
+//                    flatsByFloor.add(flat);
+//                }
+//            }
+//            return flatsByFloor;
+//        }
         
 //        @GetMapping("/floor/{floorNumber}")
 //        public ResponseEntity<List<Flat>> getFlatsByFloorNumber(@PathVariable int floorNumber) {
@@ -426,15 +425,15 @@ public class AllMethods
 //            return flatsByFloor;
 //        }
 
-//        @GetMapping("/floor/{floorNumber}")
-//        public String getFlatDetailsOnFloor(@PathVariable int floorNumber) {
-//            for (Flat flat : flatDAO.findAll()) {
-//                if (flat.getFloorNumber() == floorNumber) {
-//                    return "Flat found: " + flat.toString();
-//                }
-//            }
-//            return "No flats found on floor " + floorNumber;
-//        }
+        @GetMapping("/floor/{floorNumber}")
+        public String getFlatDetailsOnFloor(@PathVariable int floorNumber) {
+            for (Flat flat : flatDAO.findAll()) {
+                if (flat.getFloorNumber() == floorNumber) {
+                    return "Flat found: " + flat.toString();
+                }
+            }
+            return "No flats found on floor " + floorNumber;
+        }
      
 //        @GetMapping("/floor/{floorNumber}")
 //        public ResponseEntity<List<Flat>> getFlatsByFloorNumber(@PathVariable int floorNumber) {
@@ -447,16 +446,16 @@ public class AllMethods
 //=================================================================================
 
         // Get furnished flats
-//        @GetMapping("/furnished/{status}")
-//        public List<Flat> getFurnishedFlats(@PathVariable String status) {
-//            List<Flat> furnishedFlats = new ArrayList<>();
-//            for (Flat flat : flatDAO.findAll()) {
-//                if (flat.getFurnishedStatus().equalsIgnoreCase(status)) {
-//                    furnishedFlats.add(flat);
-//                }
-//            }
-//            return furnishedFlats;
-//        }
+        @GetMapping("/furnished/{status}")
+        public List<Flat> getFurnishedFlats(@PathVariable String status) {
+            List<Flat> furnishedFlats = new ArrayList<>();
+            for (Flat flat : flatDAO.findAll()) {
+                if (flat.getFurnishedStatus().equalsIgnoreCase(status)) {
+                    furnishedFlats.add(flat);
+                }
+            }
+            return furnishedFlats;
+        }
         
 //        @GetMapping("/furnished/{status}")
 //        public ResponseEntity<List<Flat>> getFurnishedFlats(@PathVariable String status) {
@@ -470,6 +469,7 @@ public class AllMethods
 //                   ResponseEntity.status(HttpStatus.NOT_FOUND).body(null) :
 //                   ResponseEntity.ok(furnishedFlats);
 //        }
+        
 //        @GetMapping("/furnished/{status}")
 //        public String getFurnishedFlats(@PathVariable String status) {
 //            List<Flat> furnishedFlats = new ArrayList<>();
@@ -484,14 +484,14 @@ public class AllMethods
 //        }
 
 
-        @GetMapping("/furnished/{status}")
-        public ResponseEntity<List<Flat>> getFurnishedFlats(@PathVariable String status) {
-            List<Flat> furnishedFlats = flatDAO.findAll()
-                                               .stream()
-                                               .filter(flat -> flat.getFurnishedStatus().equalsIgnoreCase(status))
-                                               .toList();
-            return ResponseEntity.ok(furnishedFlats);
-        }
+//        @GetMapping("/furnished/{status}")
+//        public ResponseEntity<List<Flat>> getFurnishedFlats(@PathVariable String status) {
+//            List<Flat> furnishedFlats = flatDAO.findAll()
+//                                               .stream()
+//                                               .filter(flat -> flat.getFurnishedStatus().equalsIgnoreCase(status))
+//                                               .toList();
+//            return ResponseEntity.ok(furnishedFlats);
+//        }
 
 //=================================================================================
 
