@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.FlatEntity.Flat;
 import com.example.FlatInterface.FlatDao;
 
-@CrossOrigin(origins = "http://localhost:4200")  // Allow Angular frontend
+//@CrossOrigin(origins = "http://localhost:4200")  // Allow Angular frontend
+@CrossOrigin(origins = "*")  // Allow requests from any frontend
 @RestController
 @RequestMapping("/api/flats")
 public class AllMethods
